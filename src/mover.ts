@@ -1,5 +1,6 @@
 import p5 from "p5"
 import type IMover from "./interfaces/mover"
+import type Force from "./interfaces/force"
 
 export default class Mover implements IMover {
     position: p5.Vector
@@ -7,7 +8,7 @@ export default class Mover implements IMover {
     size: number
     color: p5.Color
     p: p5
-    forces: Map<string,p5.Vector>
+    forces: Map<string,Force>
     acceleration: p5.Vector
 
     constructor(p: p5, color?: p5.Color, size?: number, speed?: p5.Vector, position?: p5.Vector) {
@@ -45,7 +46,7 @@ export default class Mover implements IMover {
         }
 
         // Forcefield mode
-        
+
         // let xComponent = 0
         // if (this.position.x > this.p.width/2) {
         //     xComponent = 10000 / - Math.pow(this.p.width - this.position.x, 2)
@@ -70,7 +71,7 @@ export default class Mover implements IMover {
 
     applyForces() {
         this.forces.forEach((force, _) => {
-            this.applyForce(force)
+            this.applyForce(force.calculateForce(this))
         });
         this.velocity.add(this.acceleration)
         this.velocity.limit(10)
@@ -83,8 +84,8 @@ export default class Mover implements IMover {
         this.acceleration.add(f)
     }
 
-    addForce(name: string, force: p5.Vector) {
-        this.forces.set(name, force.copy())
+    addForce(name: string, force: Force) {
+        this.forces.set(name, force)
     }
 
     removeForce(name: string) {

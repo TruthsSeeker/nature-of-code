@@ -1,6 +1,7 @@
 import p5 from "p5"
 import type Mover from "./mover";
 import Accelerator from "./accelerator";
+import ConstantForce from "./forces/ConstantForce";
 
 
 export default (p: p5) => {
@@ -26,8 +27,7 @@ export default (p: p5) => {
 
             movers.forEach(mover => {
                 let helium = p.createVector(0, -0.05)
-                mover.addForce('helium', helium)
-    
+                mover.addForce('helium', new ConstantForce(helium))
             })
             
         },
@@ -35,6 +35,8 @@ export default (p: p5) => {
         draw() {
             p.background(0);
             drawFPS();
+
+            p.rect(p.mouseX - 5, p.mouseY - 5, 10, 10)
             movers.forEach(mover => {
                 
                 if (p.mouseIsPressed) {
@@ -42,9 +44,14 @@ export default (p: p5) => {
                     mover.applyForce(wind)
                 }
 
-                let randomWind = p.createVector(p.noise(xOffset * p.frameCount) * 0.5, 0)
-                mover.applyForce(randomWind)
+                // let randomWind = p.createVector(p.noise(xOffset * p.frameCount) * 0.5, 0)
+                // mover.applyForce(randomWind)
+
                 
+                let fanWind = p.createVector(p.mouseX, p.mouseY).sub(mover.position)
+                fanWind.setMag(1000 / -fanWind.magSq())
+                mover.applyForce(fanWind)
+
                 mover.update()
             });
         }
