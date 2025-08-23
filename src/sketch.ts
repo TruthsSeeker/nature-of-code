@@ -7,12 +7,12 @@ import ConstantForce from "./forces/ConstantForce";
 export default (p: p5) => {
     let position: p5.Vector;
     let speed: p5.Vector;
-    let movers: Mover[] = [];
-    let xOffset = 0.001;
+    let movers: Mover[];
 
     Object.assign(p, {
         paused: false,
         setup() {
+            movers = [];
             p.createCanvas(400, 400);
             position = p.createVector(100, 100)
             speed = p.createVector(10.5, 20.3)
@@ -33,11 +33,11 @@ export default (p: p5) => {
         },
         
         draw() {
+            p.background(0);
+            
             if (this.paused) {
                 return;
             }
-
-            p.background(0);
             drawFPS();
 
             p.rect(p.mouseX - 5, p.mouseY - 5, 10, 10)

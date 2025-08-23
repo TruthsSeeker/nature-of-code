@@ -13,9 +13,16 @@ function init(root: HTMLElement) {
 }
 
 const pauseButton = document.getElementById("pause-button")
-pauseButton!.onclick = (e) => {
+pauseButton!.addEventListener('click', (e) => {
     p.pause()
     if (p.paused) {
-        e.target
+        pauseButton!.innerText = "Play"
+    } else {
+        pauseButton!.innerText = "Pause"
     }
-}
+})
+
+const resetButton = document.getElementById('reset-button')
+resetButton!.addEventListener('click', (e) => {
+    p.setup()
+})
