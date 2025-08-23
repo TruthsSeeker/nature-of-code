@@ -11,6 +11,7 @@ export default (p: p5) => {
     let xOffset = 0.001;
 
     Object.assign(p, {
+        paused: false,
         setup() {
             p.createCanvas(400, 400);
             position = p.createVector(100, 100)
@@ -29,10 +30,13 @@ export default (p: p5) => {
                 let helium = p.createVector(0, -0.05)
                 mover.addForce('helium', new ConstantForce(helium))
             })
-            
         },
         
         draw() {
+            if (this.paused) {
+                return;
+            }
+
             p.background(0);
             drawFPS();
 
@@ -54,8 +58,11 @@ export default (p: p5) => {
 
                 mover.update()
             });
+        },
+
+        pause() {
+            this.paused = !this.paused
         }
-        
     })
 
     function drawFPS() {
