@@ -1,6 +1,6 @@
 import p5 from "p5"
-import type IMover from "./interfaces/mover"
-import type Force from "./interfaces/force"
+import type IMover from "../interfaces/mover"
+import type Force from "../interfaces/force"
 
 export default class Mover implements IMover {
     position: p5.Vector
@@ -22,8 +22,8 @@ export default class Mover implements IMover {
     }
 
     update() {
-        this.checkWalls()
         this.applyForces()
+        this.checkWalls()
         this.draw()
         this.acceleration.mult(0)
     }
@@ -40,7 +40,7 @@ export default class Mover implements IMover {
         if (this.position.y >= this.p.height - this.size/2) {
             this.position.y = this.p.height - this.size/2
             this.velocity.y *= -1
-        } else if (this.position.y < this.size/2 && this.velocity.y < 0) {
+        } else if (this.position.y < this.size/2) {
             this.position.y = this.size/2
             this.velocity.y *= -1
         }
@@ -70,7 +70,7 @@ export default class Mover implements IMover {
     }
 
     applyForces() {
-        this.forces.forEach((force, _) => {
+        this.forces.forEach((force, name) => {
             this.applyForce(force.calculateForce(this))
         });
         this.velocity.add(this.acceleration)
@@ -90,5 +90,21 @@ export default class Mover implements IMover {
 
     removeForce(name: string) {
         this.forces.delete(name)
+    }
+
+    contactEdge(): boolean {
+        if ((this.position.x >= this.p.width - this.size / 2 ) 
+        || (this.position.y >= this.p.height - this.size/2) 
+        || (this.position.x <= this.size/2) 
+        || (this.position.y <= this.size/2)) {
+            return true
+        }
+
+        return false 
+    }
+
+    pointIsInside(point: p5.Vector): boolean {
+
+        return point.dist(this.position) <= this.size/2
     }
 }
