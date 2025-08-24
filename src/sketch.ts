@@ -34,6 +34,9 @@ export default (p: p5) => {
         movers.forEach(mover => {
             // let helium = p.createVector(0, -0.05)
             // mover.addForce('helium', new ConstantForce(helium))
+
+            let gravity = p.createVector(0, 1)
+            mover.addForce('gravity', new ConstantForce(gravity))
         })
     }
         
@@ -46,7 +49,7 @@ export default (p: p5) => {
         drawFPS();
 
         p.rect(p.mouseX - 5, p.mouseY - 5, 10, 10)
-        let friction = new Friction(10)
+        let friction = new Friction(15)
         movers.forEach(mover => {
             
             if (p.mouseIsPressed) {
