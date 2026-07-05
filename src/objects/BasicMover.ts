@@ -1,8 +1,9 @@
 import p5 from "p5"
-import type IMover from "../interfaces/mover"
-import type Force from "../interfaces/force"
+import type { Mover } from "../interfaces/Mover"
+import type { Force } from "../interfaces/Force"
+import type { Massive } from "../interfaces/massive"
 
-export default class Mover implements IMover {
+export class BasicMover implements Mover, Massive {
     position: p5.Vector
     velocity: p5.Vector
     size: number
@@ -10,6 +11,7 @@ export default class Mover implements IMover {
     p: p5
     forces: Map<string,Force>
     acceleration: p5.Vector
+    mass?: number
 
     constructor(p: p5, color?: p5.Color, size?: number, speed?: p5.Vector, position?: p5.Vector) {
         this.p = p 
@@ -106,5 +108,13 @@ export default class Mover implements IMover {
     pointIsInside(point: p5.Vector): boolean {
 
         return point.dist(this.position) <= this.size/2
+    }
+
+    getMass(): number {
+        if (this.mass == null) {
+            // Use constant for density for now
+            this.mass = this.size * 0.5
+        }
+        return this.mass
     }
 }

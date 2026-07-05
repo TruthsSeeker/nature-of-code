@@ -1,4 +1,4 @@
-export default interface IControllable {
+export interface Controllable {
     control(): void
     release(): void
 }

@@ -1,6 +1,6 @@
 import type p5 from "p5";
 
-export default interface IMover {
+export interface Mover {
     position: p5.Vector
     size: number
     velocity: p5.Vector

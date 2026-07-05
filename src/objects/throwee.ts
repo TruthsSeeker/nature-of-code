@@ -1,8 +1,8 @@
 import p5 from "p5"
-import Mover from "./mover";
-import type IControllable from "../interfaces/controllable";
+import { BasicMover } from "./BasicMover";
+import type { Controllable } from "../interfaces/Controllable";
 
-export default class Throwee extends Mover implements IControllable {
+export class Throwee extends BasicMover implements Controllable {
     propulsing: boolean = false
 
     update(): void {

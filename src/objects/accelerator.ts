@@ -1,6 +1,7 @@
 import p5 from "p5"
+import { BasicMover } from "./BasicMover"
 
-export default class Accelerator extends Mover {
+export class Accelerator extends BasicMover {
     acceleration: p5.Vector
     constructor(p: p5, acceleration: p5.Vector, speed?: p5.Vector, color?: p5.Color, size?: number) {
         super(p, color, size, speed)
@@ -48,4 +49,3 @@ export default class Accelerator extends Mover {
         )
     }
 }
-import Mover from "./mover"

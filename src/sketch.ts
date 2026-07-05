@@ -1,15 +1,15 @@
 import p5 from "p5"
-import type Mover from "./objects/mover";
-import Accelerator from "./objects/accelerator";
-import ConstantForce from "./forces/ConstantForce";
-import Friction from "./forces/Friction";
-import Throwee from "./objects/throwee";
+import type { BasicMover } from "./objects/BasicMover";
+import { Accelerator } from "./objects/Accelerator";
+import { ConstantForce } from "./forces/ConstantForce";
+import { Friction } from "./forces/Friction";
+import { Throwee } from "./objects/Throwee";
 
 
 export default (p: p5) => {
     let position: p5.Vector;
     let speed: p5.Vector;
-    let movers: Mover[];
+    let movers: BasicMover[];
     let paused = false;
     let controlledObject: Throwee | null | undefined;
 
@@ -28,8 +28,8 @@ export default (p: p5) => {
         // let accelerator1 = new Accelerator(p, p.createVector(0.0, 0.0), p.createVector(0, 0))
         // movers.push(accelerator1)
 
-        let propulsor = new Throwee(p)
-        movers.push(propulsor)
+        let propulsed = new Throwee(p)
+        movers.push(propulsed)
 
         movers.forEach(mover => {
             // let helium = p.createVector(0, -0.05)

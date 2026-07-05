@@ -1,15 +1,15 @@
 import p5 from "p5";
-import type Force from "../interfaces/force";
-import type IMover from "../interfaces/mover";
+import type { Force } from "../interfaces/Force";
+import type { Mover } from "../interfaces/Mover";
 
-export default class Friction implements Force {
+export class Friction implements Force {
     coefficient: number
 
     constructor(coef: number) {
         this.coefficient = coef
     }
 
-    calculateForce(mover: IMover, scalars?: Map<string, number>, vectors?: Map<string, p5.Vector>): p5.Vector {
+    calculateForce(mover: Mover, scalars?: Map<string, number>, vectors?: Map<string, p5.Vector>): p5.Vector {
         if (!mover.contactEdge()) {
             return new p5.Vector(0)
         }

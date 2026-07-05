@@ -1,6 +1,6 @@
 import p5 from "p5";
 import sketch from "./sketch";
-import type IUserInterface from "./interfaces/userInterface";
+import type UserInterface from "./interfaces/UserInterface";
 
 const root = document.getElementById("p5-root");
 if (!root) {
@@ -9,7 +9,7 @@ if (!root) {
 
 let p = init(root);
 function init(root: HTMLElement) {
-    return new p5(sketch, root) as p5 & IUserInterface
+    return new p5(sketch, root) as p5 & UserInterface
 }
 
 const pauseButton = document.getElementById("pause-button")

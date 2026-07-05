@@ -1,6 +1,6 @@
 import type p5 from "p5";
-import type IMover from "./mover";
+import type { Mover } from "./Mover";
 
-export default interface Force {
-    calculateForce(mover: IMover, scalars?: Map<string, number>, vectors?: Map<string,p5.Vector>): p5.Vector
+export interface Force {
+    calculateForce(mover: Mover, scalars?: Map<string, number>, vectors?: Map<string,p5.Vector>): p5.Vector
 }
