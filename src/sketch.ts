@@ -1,9 +1,10 @@
 import p5 from "p5"
-import type { BasicMover } from "./objects/BasicMover";
+import { BasicMover } from "./objects/BasicMover";
 import { Accelerator } from "./objects/Accelerator";
 import { ConstantForce } from "./forces/ConstantForce";
 import { Friction } from "./forces/Friction";
 import { Throwee } from "./objects/Throwee";
+import { Gravity, UniformGravity } from "./forces/Gravity";
 
 
 export default (p: p5) => {
@@ -19,24 +20,24 @@ export default (p: p5) => {
         position = p.createVector(100, 100)
         speed = p.createVector(10.5, 20.3)
 
-        // for (var i = 0; i < 10; i++) {
-        //   movers.push(new Mover())
-        // }
+        for (var i = 0; i < 10; i++) {
+            let propulsed = new Throwee(p)
+            propulsed.position = p.createVector(propulsed.position.x + (Math.random() - 0.5) * 200, propulsed.position.y)
+            movers.push(propulsed)
+        }
 
         // let accelerator = new Accelerator(p, p.createVector(0.0, 0.0), p.createVector(0, 0))
         // movers.push(accelerator)
         // let accelerator1 = new Accelerator(p, p.createVector(0.0, 0.0), p.createVector(0, 0))
         // movers.push(accelerator1)
 
-        let propulsed = new Throwee(p)
-        movers.push(propulsed)
-
         movers.forEach(mover => {
             // let helium = p.createVector(0, -0.05)
             // mover.addForce('helium', new ConstantForce(helium))
 
             let gravity = p.createVector(0, 1)
-            mover.addForce('gravity', new ConstantForce(gravity))
+            mover.addForce('gravity', new UniformGravity(gravity, 0.1))
+
         })
     }
         
@@ -80,12 +81,9 @@ export default (p: p5) => {
     })
 
     p.mousePressed = (e) => {
-        console.log('mousePressed')
         movers.forEach(mover => {
             if (mover instanceof Throwee && !mover.propulsing && !controlledObject) {
-                console.log('propulsor')
                 if (mover.pointIsInside(new p5.Vector(p.mouseX, p.mouseY))) {
-                    console.log('assuming direct control')
                     mover.control()
                     controlledObject = mover
                 }

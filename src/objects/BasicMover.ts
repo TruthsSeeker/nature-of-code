@@ -1,7 +1,7 @@
 import p5 from "p5"
 import type { Mover } from "../interfaces/Mover"
 import type { Force } from "../interfaces/Force"
-import type { Massive } from "../interfaces/massive"
+import type { Massive } from "../interfaces/Massive"
 
 export class BasicMover implements Mover, Massive {
     position: p5.Vector
@@ -11,7 +11,7 @@ export class BasicMover implements Mover, Massive {
     p: p5
     forces: Map<string,Force>
     acceleration: p5.Vector
-    mass?: number
+    mass: number
 
     constructor(p: p5, color?: p5.Color, size?: number, speed?: p5.Vector, position?: p5.Vector) {
         this.p = p 
@@ -21,6 +21,7 @@ export class BasicMover implements Mover, Massive {
         this.color = color ?? p.color([p.random(255), p.random(255), p.random(255)])
         this.forces = new Map()
         this.acceleration = p.createVector()
+        this.mass = this.size * 0.5
     }
 
     update() {
@@ -108,13 +109,5 @@ export class BasicMover implements Mover, Massive {
     pointIsInside(point: p5.Vector): boolean {
 
         return point.dist(this.position) <= this.size/2
-    }
-
-    getMass(): number {
-        if (this.mass == null) {
-            // Use constant for density for now
-            this.mass = this.size * 0.5
-        }
-        return this.mass
     }
 }

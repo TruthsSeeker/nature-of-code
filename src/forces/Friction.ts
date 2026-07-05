@@ -14,8 +14,6 @@ export class Friction implements Force {
             return new p5.Vector(0)
         }
 
-        console.log('friction')
-
         let direction = mover.velocity.copy().normalize().mult(-1)
         let normal = scalars?.get('normal') ?? 1
 
