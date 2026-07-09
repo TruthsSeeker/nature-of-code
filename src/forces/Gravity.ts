@@ -37,6 +37,12 @@ export class UniformGravity extends ConstantForce {
         super(f)
         this.G = g ?? G
     }
+
+    static downward(g?: number): UniformGravity {
+        let down = new p5.Vector(0, 1)
+        return new UniformGravity(down, g)
+    }
+    
     calculateForce(mover: Mover, scalars?: Map<string, number>, vectors?: Map<string, p5.Vector>): p5.Vector {
         if (!isMassive(mover)) {
             return new p5.Vector(0)
