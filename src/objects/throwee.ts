@@ -17,7 +17,7 @@ export class Throwee extends BasicMover implements Controllable {
 
     calculatePropulsion(): p5.Vector {
         let direction = new p5.Vector(this.p.mouseX, this.p.mouseY).sub(this.position).mult(-1)
-        return direction
+        return direction.mult(10)
     }
 
     applyPropulsion() {

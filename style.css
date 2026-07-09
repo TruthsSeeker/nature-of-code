@@ -7,3 +7,7 @@ html, body {
 canvas {
   display: block;
 }
+
+label {
+  color: aliceblue;
+}

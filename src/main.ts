@@ -22,7 +22,33 @@ pauseButton!.addEventListener('click', (e) => {
     }
 })
 
+
+function getInput(id: string): HTMLInputElement {
+    let el = document.getElementById(id)
+    if (!(el instanceof HTMLInputElement)) {
+        throw new Error(`Expected an input element for id: ${id}` );
+    }
+    
+    return el
+}
+
+const densitySlider = getInput('density-slider')
+densitySlider.addEventListener('input', (e) => {
+    p.setDensity(parseFloat(densitySlider.value))
+})
+const gravitySlider = getInput('gravity-slider')
+gravitySlider.addEventListener('input', (e) => {
+    p.setGravity(parseFloat(gravitySlider.value))
+})
+const dragSlider = getInput('friction-slider')
+dragSlider.addEventListener('input', (e) => {
+    p.setFriction(parseFloat(dragSlider.value))
+})
+
 const resetButton = document.getElementById('reset-button')
 resetButton!.addEventListener('click', (e) => {
     p.setup()
+    p.setDensity(parseFloat(densitySlider.value))
+    p.setGravity(parseFloat(gravitySlider.value))
+    p.setFriction(parseFloat(dragSlider.value))
 })

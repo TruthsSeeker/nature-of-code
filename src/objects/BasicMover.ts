@@ -21,7 +21,7 @@ export class BasicMover implements Mover, Massive {
         this.color = color ?? p.color([p.random(255), p.random(255), p.random(255)])
         this.forces = new Map()
         this.acceleration = p.createVector()
-        this.mass = this.size * 0.5
+        this.mass = this.size ** 1.2
     }
 
     update() {
@@ -83,7 +83,7 @@ export class BasicMover implements Mover, Massive {
 
     applyForce(force: p5.Vector) {
         let f = this.p.createVector()
-        p5.Vector.div(force, this.size, f)
+        p5.Vector.div(force, this.mass, f)
         this.acceleration.add(f)
     }
 

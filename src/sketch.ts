@@ -5,6 +5,8 @@ import { ConstantForce } from "./forces/ConstantForce";
 import { Friction } from "./forces/Friction";
 import { Throwee } from "./objects/Throwee";
 import { Gravity, UniformGravity } from "./forces/Gravity";
+import { Drag } from "./forces/Drag";
+import type UserInterface from "./interfaces/UserInterface";
 
 
 export default (p: p5) => {
@@ -13,12 +15,24 @@ export default (p: p5) => {
     let movers: BasicMover[];
     let paused = false;
     let controlledObject: Throwee | null | undefined;
+    let drag: Drag;
+    let gravity: UniformGravity;
+    let friction: Friction;
 
     p.setup = () => {
         movers = [];
         p.createCanvas(400, 400);
         position = p.createVector(100, 100)
         speed = p.createVector(10.5, 20.3)
+
+
+        drag = Drag.defaultFluid(0.5)
+
+        friction = new Friction(0.1)
+
+        let g = p.createVector(0, 1)
+        gravity = new UniformGravity(g, 0.05)
+
 
         for (var i = 0; i < 10; i++) {
             let propulsed = new Throwee(p)
@@ -34,10 +48,7 @@ export default (p: p5) => {
         movers.forEach(mover => {
             // let helium = p.createVector(0, -0.05)
             // mover.addForce('helium', new ConstantForce(helium))
-
-            let gravity = p.createVector(0, 1)
-            mover.addForce('gravity', new UniformGravity(gravity, 0.1))
-
+            
         })
     }
         
@@ -50,7 +61,9 @@ export default (p: p5) => {
         drawFPS();
 
         p.rect(p.mouseX - 5, p.mouseY - 5, 10, 10)
-        let friction = new Friction(15)
+        
+
+
         movers.forEach(mover => {
             
             if (p.mouseIsPressed) {
@@ -61,24 +74,38 @@ export default (p: p5) => {
             // let randomWind = p.createVector(p.noise(xOffset * p.frameCount) * 0.5, 0)
             // mover.applyForce(randomWind)
             
-            mover.addForce('friction', friction)
             
             // let fanWind = p.createVector(p.mouseX, p.mouseY).sub(mover.position)
             // fanWind.setMag(1000 / -fanWind.magSq())
             // mover.applyForce(fanWind)
 
-
+            mover.addForce('gravity', gravity)
+            mover.addForce('friction', friction)
+            
+            // Drag
+            mover.addForce('drag', drag)
 
             mover.update()
         });
     }
 
-    
-    Object.assign(p, {
+    const extension = {
+        get paused() { return paused; },
         pause() {
-            paused = !paused
+            paused = !paused;
+        },
+        setDensity: function (value: number): void {
+            drag = Drag.defaultFluid(value)
+        },
+        setGravity: function (value: number): void {
+            gravity = UniformGravity.downward(value)
+        },
+        setFriction: function (value: number): void {
+            friction = new Friction(value)
         }
-    })
+    } satisfies UserInterface
+
+    Object.assign(p, extension)
 
     p.mousePressed = (e) => {
         movers.forEach(mover => {
